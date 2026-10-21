@@ -4,13 +4,23 @@
 
 Microservicio para gestionar **campañas de notificaciones** multicanal (email, WhatsApp y otros).
 
-Estado actual: **greenfield**. Sólo existen `LICENSE` y `.gitignore`. No hay código, build ni tests que verificar — todo lo de abajo son convenciones del proyecto a seguir al crear código.
+Estado actual: scaffold del proyecto Spring Boot + directorios de slices creados; aún no hay lógica de negocio.
 
 ## Stack
 
-- Java 25, Spring Boot 4.1
-- Gradle (wrapper `./gradlew` cuando exista)
+- Java 25 (toolchain Gradle; se auto-provisiona con foojay-resolver), Spring Boot 4.1.1
+- Gradle 9.8.1 via wrapper `./gradlew`
 - No hay servicios externos ni credenciales configurables aún
+
+**Quirk Spring Boot 4:** los starter web son `spring-boot-starter-webmvc` / `spring-boot-starter-webmvc-test`, NO `spring-boot-starter-web` (ya no existe con ese nombre).
+
+## Comandos
+
+```bash
+./gradlew build        # compilar + tests
+./gradlew test         # solo tests
+./gradlew bootRun      # arrancar la app
+```
 
 ## Ramas
 
@@ -22,7 +32,7 @@ Estado actual: **greenfield**. Sólo existen `LICENSE` y `.gitignore`. No hay c�
 
 **Clean architecture + slice architecture por feature.** Cada feature es un slice vertical autocontenido; dentro de cada slice se aplica clean architecture (las dependencias apuntan hacia el dominio). Hay una definición de dominio compartida y un slice `common`.
 
-**Al diseñar o crear código, sigue [`docs/architecture-scaffolding.md`](docs/architecture-scaffolding.md)** — convención de directorios, estándar de nombres y reglas de dependencia. Es la fuente de verdad; este archivo sólo resume.
+**Al diseñar o crear código, sigue [`docs/architecture-scaffolding.md`](docs/architecture-scaffolding.md)** — convención de directorios, estándar de nombres y reglas de dependencia. Los cinco slices del dominio (`templates`, `campaigns`, `dispatch`, `providers`, `tracking`) están definidos en [`docs/architecture-slices.md`](docs/architecture-slices.md). Ambos son la fuente de verdad; este archivo sólo resume.
 
 ```
 src/main/java/.../
