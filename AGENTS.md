@@ -44,7 +44,7 @@ src/main/java/.../
       application/     # casos de uso
       ports/           # interfaces hacia el exterior
       adapters/
-        in/web/        # controllers REST
+        in/rest/      # controllers REST
         out/           # implementaciones: EmailChannel, WhatsAppChannel, persistencia
       infrastructure/  # config Spring de la feature
 ```
@@ -65,7 +65,7 @@ src/main/java/.../
 
 - Unit tests sobre `domain/` y `application/` sin levantar Spring
 - Tests de adapter con mocks del puerto contrario
-- Spring Boot tests sólo para la capa web/infra
+- Spring Boot tests sólo para la capa REST/infra
 - Ubicación espejo bajo `src/test/java/...`
 
 ## Estilo

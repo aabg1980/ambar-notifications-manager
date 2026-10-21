@@ -14,7 +14,8 @@ src/main/java/<base package>/
       application/
       ports/
       adapters/
-        in/web/
+        in/rest/       # controllers
+          dto/         # *Request / *Response
         out/
       infrastructure/
   AmbarNotificationsManagerApplication.java   # única clase de arranque Spring Boot
@@ -40,16 +41,17 @@ docs/                           # documentación de arquitectura y decisiones
 | `domain/` | entidades, value objects, reglas puras | solo JDK y `domain/` compartido |
 | `application/` | casos de uso, orquestación | `domain/`, `ports/` |
 | `ports/` | interfaces hacia el exterior | `domain/` |
-| `adapters/in/web/` | controllers REST, DTOs de entrada | `application/`, `ports/` |
+| `adapters/in/rest/` | controllers REST | `application/`, `ports/` |
+| `adapters/in/rest/dto/` | DTOs de entrada/salida (`*Request` / `*Response`) | solo JDK |
 | `adapters/out/` | persistencia, clientes de canal | `ports/`, `domain/` |
 | `infrastructure/` | config Spring, beans, propiedades | cualquier paquete del slice |
-| `common/` | utilidades transversales sin estado de feature | solo JDK |
+| `common/` | utilidades transversales y endpoints operativos (health) sin estado de feature | JDK; sus `adapters/` pueden usar Spring |
 
 ## Estándar de nombres
 
 ### Paquetes y clases
 
-- Paquetes: `lowercase` sin separadores (`campaigns`, `adapters`, `in.web`).
+- Paquetes: `lowercase` sin separadores (`campaigns`, `adapters`, `in.rest`).
 - Clases: `PascalCase`, en inglés. Sufijos por rol:
   - Entidades / modelos de dominio: sin sufijo (`Campaign`, `Notification`).
   - Value objects: sustantivo descriptivo (`ChannelType`, `RecipientAddress`).
@@ -57,7 +59,7 @@ docs/                           # documentación de arquitectura y decisiones
   - Puertos: `PascalCase` del sustantivo (`NotificationChannel`, `CampaignRepository`).
   - Adaptadores: `<Tecnología|Proveedor><Puerto>` (`EmailNotificationChannel`, `JpaCampaignRepository`).
   - Controllers REST: `<Sustantivo>Controller` (`CampaignController`).
-  - DTOs: `<Sustantivo>Request` / `<Sustantivo>Response`.
+  - DTOs: `<Sustantivo>Request` / `<Sustantivo>Response`, siempre en `adapters/in/rest/dto/`.
   - Config Spring: `<Contexto>Config`.
 
 ### Campos y métodos
@@ -67,7 +69,7 @@ docs/                           # documentación de arquitectura y decisiones
 
 ### Paquetes de prueba
 
-- Espejo exacto de `src/main/java`. Sufijos: `*Test` (unitario), `*IT` (integración), `*WebTest` (capa web).
+- Espejo exacto de `src/main/java`. Sufijos: `*Test` (unitario), `*IT` (integración), `*RestTest` (capa REST).
 
 ### Recursos y perfiles
 
